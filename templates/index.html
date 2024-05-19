@@ -3,21 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arduino Data Display</title>
+    <title>Real-time Weight Display</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            setInterval(function() {
+                $.getJSON('/weight', function(data) {
+                    $('#weight_display').text(data.weight + ' kg');
+                    updatePrice(parseFloat(data.weight));  // 確保傳遞的是數字而不是字符串
+                });
+            }, 500);  // Update every half-second
+        });
+
+        function updatePrice(weight) {
+            let price;
+            if (weight === 0) {  // 使用 === 來確保類型和值的比較
+                price = 0;  
+            } else if (weight <= 20) {
+                price = 8;  
+            } else if (weight <= 50) {
+                price = 16;  
+            } else if (weight <= 100) {
+                price = 24;  
+            } else if (weight <= 250) {
+                price = 40;  
+            } else if (weight <= 500) {
+                price = 72;  
+            } else if (weight <= 1000) {
+                price = 112;  
+            } else if (weight <= 2000) {
+                price = 200;
+            } else {
+                price = "超重了";  
+            }
+            $('#price_display').text('價格: ' + price + ' 塊');
+        }
+    </script>
 </head>
 <body>
-    <h1>郵件價錢式算:</h1>
-    <p id="data">{{ data }}</p>
-
-    <script>
-        function fetchData() {
-            $.get("/data", function(data) {
-                $("#data").text(data);
-            });
-        }
-
-        setInterval(fetchData, 500); // 更新頻率為每秒（1000毫秒）
-    </script>
+    <h1>郵件價格</h1>
+    <p id="weight_display">載入中...</p>
+    <p id="price_display">價格計算中...</p>
 </body>
 </html>

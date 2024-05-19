@@ -61,7 +61,7 @@ void loop() {
   lcd.print("g");
 
   // 如果重量超過100克，啟動蜂鳴器
-  if(weight > 100) {
+  if(weight > 3000) {
     digitalWrite(BUZZER_PIN, HIGH);
   } else {
     digitalWrite(BUZZER_PIN, LOW);
