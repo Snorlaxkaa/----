@@ -6,7 +6,7 @@ import threading
 app = Flask(__name__)
 
 # 初始化序列通訊，設置連接到特定USB串行埠和波特率
-ser = serial.Serial('/dev/cu.usbserial-0001', 9600, timeout=1)
+ser = serial.Serial('COM3', 9600, timeout=1)
 weight = "No data yet"  # 初始化重量數據為 "No data yet"
 lock = threading.Lock()  # 創建一個鎖，用於線程間的同步
 
